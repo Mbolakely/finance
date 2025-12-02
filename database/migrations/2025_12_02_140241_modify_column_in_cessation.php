@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cessation', function (Blueprint $table) {
-            $table->id();
-            $table->string('date_cessation');
-            $table->timestamps();
+        Schema::table('cessation', function (Blueprint $table) {
+              $table->renameColumn('numero_cessation', 'number_cessation');
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cessation');
+        Schema::table('cessation', function (Blueprint $table) {
+            //
+        });
     }
 };
