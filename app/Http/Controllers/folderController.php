@@ -9,7 +9,7 @@ class folderController extends Controller
 {
     public function lister() {
 
-        $folder = folder::all();
+        $folder = folder::with('beneficiary')->get();
 
         return response()->json($folder, 200);
     }

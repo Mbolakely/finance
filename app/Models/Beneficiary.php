@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Folder;
 
 class Beneficiary extends Model
 {
@@ -21,4 +22,8 @@ class Beneficiary extends Model
         'state',
         'remark'
     ];
+
+    public function folder() {
+        $this -> hasOne(Folder::class);
+    }
 }
