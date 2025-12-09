@@ -66,8 +66,46 @@ class BeneficiaryController extends Controller
     ]);
 
     return response()->json([
+        'message' => "beneficiaire ajouté avec succès",
         'beneficiaire' => $beneficiary
     ]);
 }
 
+// Fonction pour la modification
+public function update($id, Request $request) {
+
+    $beneficiary = Beneficiary::findOrFail($id);
+
+    $validated = $request->validate(
+        [
+        'name' => 'required|string|max:100',
+        'firstname' => 'nullable|string|max:100',
+        'cin' => 'required|string|max:12|unique:beneficiary,cin,' . $id . ',id',
+        'sexe' => 'required|string|in:Femme,Homme',
+        'contact' => 'required|digits:10',
+        'adresse' => 'nullable|string|max:200',
+        'state' => 'required|in:Actif,Inactif',
+        'remark' => 'nullable|max:200'
+        ]
+        );
+    
+        // dd($beneficiary); 
+
+    $beneficiary->update([
+    'name' => $validated['name'],
+    'firstname' => $validated['firstname'],
+    'cin' => $validated['cin'],
+    'sexe' => $validated['sexe'],
+    'contact' => $validated['contact'],
+    'adresse' => $validated['adresse'],
+    'remark' => $validated['remark'],
+]);
+
+    $beneficiary->save();
+
+     return response()->json([
+        'message' => "beneficiaire modifié avec succès",
+        'beneficiaire' => $beneficiary
+    ]);
+}
 }

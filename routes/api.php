@@ -15,6 +15,7 @@ Route::controller(BeneficiaryController::class)->group(function() {
     Route::delete('/beneficiary/{id}', 'destroy');
     Route::get('/beneficiary/{id}', 'show');
     Route::post('/beneficiary/add', 'add');
+    Route::put('/beneficiary/edit/{id}', 'update');
 });
 
 // Routes pour les dossiers
