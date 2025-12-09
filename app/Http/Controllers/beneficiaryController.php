@@ -41,20 +41,20 @@ class BeneficiaryController extends Controller
      }
 
     //  Fonction pour l'ajout
-    public function add(Request $request) {
-        
-       $validated = $request->validate([
-            'name' => 'required|string|max:100',
-            'firstname' => 'nullable|string|max:100',
-            'cin' => 'required|string|max:12|unique:beneficiary,cin',
-            'sexe' => 'required|string|in:Femme,Homme',
-            'contact' => 'required|digits:10',
-            'adresse' => 'nullable|string|max:200',
-            'state' => 'required|in:Actif,Inactif',
-            'remark' => 'nullable|max:200'
-        ]);
+   public function add(Request $request) 
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:100',
+        'firstname' => 'nullable|string|max:100',
+        'cin' => 'required|string|max:12|unique:beneficiary,cin',
+        'sexe' => 'required|string|in:Femme,Homme',
+        'contact' => 'required|digits:10',
+        'adresse' => 'nullable|string|max:200',
+        'state' => 'required|in:Actif,Inactif',
+        'remark' => 'nullable|max:200'
+    ]);
 
-     $beneficiary = Beneficiary::create([
+    $beneficiary = Beneficiary::create([
         'name'      => $validated['name'],
         'firstname' => $validated['firstname'] ?? null,
         'cin'       => $validated['cin'],
@@ -65,8 +65,9 @@ class BeneficiaryController extends Controller
         'remark'    => $validated['remark'] ?? null
     ]);
 
-            return response()->json([
-                'beneficiaire' => $beneficiary
-            ]);
-    }
+    return response()->json([
+        'beneficiaire' => $beneficiary
+    ]);
+}
+
 }
