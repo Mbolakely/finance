@@ -3,15 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\financial;
+use App\Models\Financial;
 
 class FinancialController extends Controller
 {
     public function list() {
 
-        $financial = financial::with('beneficiary')->get();
+        $financial = Financial::all();
 
-        return response()->json($folder,  200);
+        return response()->json($financial,  200);
+    }
+
+    public function delete($id) {
+
+        $financial = Financial::findOrFail($id);
+
+        return response()->json($financial, 200);
     }
 
     public function show($id) {
@@ -24,19 +31,19 @@ class FinancialController extends Controller
     public function add(Request $request) {
 
         $validated = $request->validate([
-            'visa' => 'required|string|max:365',
-            'visa_date' => 'required|string|max:50',
-            'regional_delegate' => 'nullable|max:100',
-            'beneficiary' => 'required|string|max:100',
-            'deceased_name' => 'required|string|max:100'
+            'Numero_Visa' => 'required|string|max:365',
+            'Date_Visa' => 'required|string|max:50',
+            'Delegue_Regional' => 'nullable|max:100',
+            'Nom_Beneficiaire' => 'required|string|max:100',
+            'Nom_Defunt' => 'required|string|max:100'
         ]);
 
         $financial = Financial::create([
-            'visa' => $validated['visa'],
-            'visa_date' => $validated['visa_date'],
-            'beneficiary' => $validated['beneficiary'],
-            'deceased_name' => $validated['deceased_name'],
-            'regional_delegate' => $validated['regional_delegate'] ?? null
+            'Nom_Defunt' => $validated['visa'],
+            'Date_Visa' => $validated['visa_date'],
+            'Delegue_Regional' => $validated['beneficiary'],
+            'Nom_Beneficiaire' => $validated['deceased_name'],
+            'Nom_Defunt' => $validated['regional_delegate'] ?? null
         ]);
 
         return response()->json([$financial, 200]);
@@ -47,19 +54,19 @@ class FinancialController extends Controller
         $financial = Financial::findOrFail($id);
 
         $validated = $request->validate([
-            'visa' => 'required|string|max:"365',
-            'visa_number' => 'required|string|max:50',
-            'beneficiary' => 'required|string|max:100',
-            'regional_delegate' => 'nullable|max:100',
-            'deceased_name' => 'required|string|max:100',
+            'Numero_Visa' => 'required|string|max:365',
+            'Date_Visa' => 'required|string|max:50',
+            'Delegue_Regional' => 'nullable|max:100',
+            'Nom_Beneficiaire' => 'required|string|max:100',
+            'Nom_Defunt' => 'required|string|max:100'
         ]);
 
         $folder->update([
-            'visa' => $validated['visa'],
-            'visa_number' => $validated['visa_number'],
-            'regional_delegate' => $validated['regional_delegate'],
-            'beneficiary' => $validated['beneficiary'],
-            'deceased_name' => $validated['deceased_name'],
+            'Nom_Defunt' => $validated['visa'],
+            'Date_Visa' => $validated['visa_date'],
+            'Delegue_Regional' => $validated['beneficiary'],
+            'Nom_Beneficiaire' => $validated['deceased_name'],
+            'Nom_Defunt' => $validated['regional_delegate'] ?? null
         ]);
 
         $folder->save();

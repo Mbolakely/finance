@@ -35,7 +35,7 @@ Route::controller(FolderController::class)->group(function() {
 // Routes pour les cessations
 Route::controller(CessationController::class)->group(function() {
     Route::get('/cessation', 'list');
-    Route::post('/cessation', 'add');
+    Route::post('/cessation/add', 'add');
     Route::get('cessation/{id}','show');
     // Route::delete('cessation/{id}','delete');
     // Route::put('cessation/{id}','update');
@@ -44,7 +44,7 @@ Route::controller(CessationController::class)->group(function() {
 // Routes pour les decisions
 Route::controller(DecisionController::class)->group(function() {
     Route::get('/decision', 'list');
-    Route::post('/decision', 'add');
+    Route::post('/decision/add', 'add');
     Route::delete('decision/{id}','delete');
     Route::get('decision/{id}','show');
     Route::put('decision/{id}','update');

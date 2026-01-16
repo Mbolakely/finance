@@ -10,11 +10,12 @@ class Countdown extends Model
 {
     use HasFactory;
 
-    protected $table = 'countdown';
+    protected $table = 'decompte';
 
     protected $fillable = [
+        'folder_id',
         'beneficiary',
-        'deseaced_name',
+        'deceased_name',
         'six_one',
         'six_two',
         'six_three',
@@ -28,7 +29,7 @@ class Countdown extends Model
         'amount'
     ];
 
-    public function countdown() {
-        return $this -> belongsTo(Countdown::class);
+    public function folder() {
+        return $this -> belongsTo(Folder::class);
     }
 }

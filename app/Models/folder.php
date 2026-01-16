@@ -13,7 +13,11 @@ class Folder extends Model
     protected $table = 'folder';
 
     protected $fillable = [
-        'beneficiary_id'
+        'beneficiary_id',
+        'matricule',
+        'upload_date',
+        'folder_state',
+        'remark'
     ];
 
      public function beneficiary() {

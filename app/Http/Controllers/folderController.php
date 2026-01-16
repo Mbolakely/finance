@@ -34,18 +34,18 @@ class folderController extends Controller
     public function add(Request $request)
     {
     $validated = $request->validate([
-        'id_number'=> 'required|string|max:20',
-        'date' => 'required|string|max:50',
+        'matricule'=> 'required|string|max:20',
+        'upload_date' => 'required|string|max:50',
         'beneficiary_id' => 'required|string|max:100',
-        'state' => 'required|in:Actif,Inactif',
+        'folder_state' => 'required|in:Actif,Inactif',
         'remark' => 'nullable|max:200'
     ]);
 
     $folder = Folder::create([
-        'id_number' => $validated['id_number'],
-        'date' => $validated['date'],
+        'matricule' => $validated['matricule'],
+        'upload_date' => $validated['upload_date'],
         'beneficiary_id' => $validated['beneficiary_id'],
-        'state' => $validated['state'],
+        'folder_state' => $validated['folder_state'],
         'remark' => $validated['remark'] ?? null
     ]);
 
@@ -58,19 +58,19 @@ public function update($id,Request $request) {
 
     $validated = $request->validate(
         [
-        'id_number' => 'required|string|max:10',
-        'date' => 'required|string|max:50',
+        'matricule' => 'required|string|max:10',
+        'upload_date' => 'required|string|max:50',
         'beneficiary_id' => 'required|string|max:100',
-        'state' => 'required|in:Actif,Inactif',
+        'folder_state' => 'required|in:Actif,Inactif',
         'remark' => 'nullable|max:200'
         ]
         );
 
     $folder->update([
-        'id_number' => $validated['id_number'],
-        'date' => $validated['date'],
+        'matricule' => $validated['matricule'],
+        'upload_date' => $validated['upload_date'],
         'beneficiary_id' => $validated['beneficiary_id'],
-        'state' => $validated['state'],
+        'folder_state' => $validated['folder_state'],
         'remark' => $validated['remark'],
     ]);
 

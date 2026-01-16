@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Cessation;
+use App\Models\cessation;
 
 class CessationController extends Controller
 {
@@ -13,6 +13,13 @@ class CessationController extends Controller
 
         return response()->json($cessation,200);
 
+    }
+
+    public function delete($id) {
+
+        $cessation = Cessation::findOrFail($id);
+
+        return response()->json($cessation, 200);
     }
 
     public function show($id)
@@ -28,13 +35,37 @@ class CessationController extends Controller
     public function add(Request $request)
     {
         $validated = $request->validate([
-            'date' => 'required|string|max:50',
-            'number' => 'required|string|max:50'
+            'date_cessation' => 'required|string|max:50',
+            'number_cessation' => 'required|string|max:50'
         ]);
 
         $cessation = Cessation::create([
-            'date' => $validated['date'],
-            'number' => $validated['number']
+            'date_cessation' => $validated['date_cessation'],
+            'number_cessation' => $validated['number_cessation']
+        ]);
+
+        return response()->json([$cessation, 200]);
+    }
+
+    public function update($id,Request $request) {
+
+        $cessation = Cessation::findOrFail($id);
+
+        $validated =  $request->validate([
+            'date_cessation' => 'required|string|max:50',
+            'number_cessation' => 'required|string|max:50'
+        ]);
+
+        $cessation->update([
+            'date_cessation' => $validated['date_cessation'],
+            'number_cessation' => $validated['number_cessation']
+        ]);
+
+        $cessation->save();
+
+        return response()->json([
+            'message' => "cessation modifié avec succès",
+            'cessation' => $cessation
         ]);
     }
 }

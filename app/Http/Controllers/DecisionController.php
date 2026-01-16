@@ -3,19 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\folder;
+use App\Models\Decision;
 
 class DecisionController extends Controller
 {
     public function list() {
 
-        $decision = decision::with('decision')->get();
+        $decision = Decision::all();
 
         return response()->json($decision, 200);
     }
 
-
-        public function show($id)
+    public function show($id)
     {
         $decision = decision::findOrFail($id);
 
@@ -24,7 +23,6 @@ class DecisionController extends Controller
             'status' => 200
         ]);
     }
-
 
     public function delete($id) {
 
@@ -37,59 +35,59 @@ class DecisionController extends Controller
     public function add(Request $request) {
 
         $validated = $request->validate([
-            'decision_number' => 'required|string|max:10',
-            'visa' => 'required|string|max:365',
-            'IM' => 'required|string|max:20',
-            'cin' => 'required|string|max:12',
-            'deceased_name' => 'required|string|max:100',
-            'beneficiary' => 'required|string|max:100',
-            'pension_number' => 'required|string|max:10',
-            'date_death' => 'required|string|max:20',
-            'death_benefit' => 'required|string|max:100'
+            'Numero_Decision' => 'required|string|max:10',
+            'Numero_Visa' => 'required|string|max:365',
+            'Numero_Matricule' => 'required|string|max:20',
+            'Numero_CIN' => 'required|string|max:12',
+            'Nom_defunt' => 'required|string|max:100',
+            'Nom_Beneficiaire' => 'required|string|max:100',
+            'Numero_Pension' => 'required|string|max:10',
+            'Date_Deces' => 'required|string|max:20',
+            'Secour_Deces' => 'required|numeric|min:0'
         ]);
 
         $decision = Decision::create([
-            'decision_number' => $validated['decision_number'],
-            'visa' => $validated['visa'],
-            'IM' => $validated['IM'],
-            'cin' => $validated['cin'],
-            'deceased_name' => $validated['deceased_name'],
-            'beneficiary' => $validated['beneficiary'],
-            'pension_number' => $validated['pension_number'],
-            'date_death' => $validated['date_death'],
-            'death_benefit' => $validated['death_benefit']
+            'Numero_Decision' => $validated['Numero_Decision'],
+            'Numero_Visa' => $validated['Numero_Visa'],
+            'Numero_Matricule' => $validated['Numero_Matricule'],
+            'Numero_CIN' => $validated['Numero_CIN'],
+            'Nom_defunt' => $validated['Nom_defunt'],
+            'Nom_Beneficiaire' => $validated['Nom_Beneficiaire'],
+            'Numero_Pension' => $validated['Numero_Pension'],
+            'Date_Deces' => $validated['Date_Deces'],
+            'Secour_Deces' => $validated['Secour_Deces']
         ]);
 
         return response()->json([$decision, 200]);
     }
     
-    
+
     public function update($id,Request $request) {
 
         $decision = Decision::findOrFail($id);
 
         $validated = $request->validate([
-            'decision_number' => 'required|string|max:10',
-            'visa' => 'required|string|max:365',
-            'IM' => 'required|string|max:20',
-            'cin' => 'required|string|max:12',
-            'deceased_name' => 'required|string|max:100',
-            'beneficiary' => 'required|string|max:100',
-            'pension_number' => 'required|string|max:10',
-            'date_death' => 'required|string|max:20',
-            'death_benefit' => 'required|string|max:100'
+            'Numero_Decision' => 'required|string|max:10',
+            'Numero_Visa' => 'required|string|max:365',
+            'Numero_Matricule' => 'required|string|max:20',
+            'Numero_CIN' => 'required|string|max:12',
+            'Nom_defunt' => 'required|string|max:100',
+            'Nom_Beneficiaire' => 'required|string|max:100',
+            'Numero_Pension' => 'required|string|max:10',
+            'Date_Deces' => 'required|string|max:20',
+            'Secour_Deces' => 'required|numeric|min:0'
         ]);
 
         $decision->update([
-            'decision_number' => $validated['decision_number'],
-            'visa' => $validated['visa'],
-            'IM' => $validated['IM'],
-            'cin' => $validated['cin'],
-            'deceased_name' => $validated['deceased_name'],
-            'beneficiary' => $validated['beneficiary'],
-            'pension_number' => $validated['pension_number'],
-            'date_death' => $validated['date_death'],
-            'death_benefit' => $validated['death_benefit']
+            'Numero_Decision' => $validated['Numero_Decision'],
+            'Numero_Visa' => $validated['Numero_Visa'],
+            'Numero_Matricule' => $validated['Numero_Matricule'],
+            'Numero_CIN' => $validated['Numero_CIN'],
+            'Nom_defunt' => $validated['Nom_defunt'],
+            'Nom_Beneficiaire' => $validated['Nom_Beneficiaire'],
+            'Numero_Pension' => $validated['Numero_Pension'],
+            'Date_Deces' => $validated['Date_Deces'],
+            'Secour_Deces' => $validated['Secour_Deces']
         ]);
 
         $decision->save();

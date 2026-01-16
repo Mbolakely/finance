@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Cessation;
+use App\Models\Folder;
 
 class Cessation extends Model
 {
@@ -13,10 +13,12 @@ class Cessation extends Model
     protected $table = 'cessation';
 
     protected $fillable = [
-        'cessation_id'
+        'folder_id',
+        'date_cessation',
+        'number_cessation'
     ];
 
-    public function cessation() {
-        return $this -> belongsTo(Cessation::class);
+    public function folder() {
+        return $this -> belongsTo(Folder::class);
     }
 }

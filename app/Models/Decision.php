@@ -10,21 +10,22 @@ class Decision extends Model
 {
     use HasFactory;
 
-    protected $table = 'decision' ;
+    protected $table = 'projet_decision';
 
     protected $fillable = [
-        'decision_number',
-        'visa',
-        'IM',
-        'cin',
-        'deceased_name',
-        'beneficiary',
-        'pension_number',
-        'date_death',
-        'death_benefit'
+        'Folder_id',
+        'Numero_Decision',
+        'Numero_Visa',
+        'Numero_Matricule',
+        'Numero_CIN',
+        'Nom_defunt',
+        'Nom_Beneficiaire',
+        'Numero_Pension',
+        'Date_Deces',
+        'Secour_Deces'
     ];
 
-    public function decision() {
-        return $this -> belongsTo(Decision::class);
-    }
+//     public function folder() {
+//         return $this -> belongsTo(Folder::class);
+//     }
 }

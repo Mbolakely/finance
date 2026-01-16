@@ -3,22 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\backup;
+use App\Models\Backup;
 
 class BackupController extends Controller
 {
     public function list() {
 
-        $backup = backup::with('beneficiary')->get();
+        $backup = Backup::all();
 
         return response()->json($backup, 200);
     }
 
     public function delete($id) {
 
-        $backup = backup::findOrFail($id);
+        $backup = Backup::findOrFail($id);
         
-        return response()->json($backup, 200);
+        return $backup->delete();
     }
 
     public function show($id)
@@ -34,23 +34,23 @@ class BackupController extends Controller
     public function add(Request $request)
     {
     $validated = $request->validate([
-        'visa'=> 'required|string|max:365',
-        'date_visa' => 'required|string|max:30',
-        'backup_number' => 'required|string|max:365',
-        'decision_date' => 'required|string|max:365',
-        'beneficiary' => 'required|string|max:100',
-        'pension_number' => 'required|string|max:10',
-        'budget' => 'required|string|max:200'
+        'Numero_Visa'=> 'required|string|max:365',
+        'Date_Visa' => 'required|string|max:30',
+        'Numero_Bureau_Secours' => 'required|string|max:365',
+        'Date_Decision' => 'required|string|max:365',
+        'Nom_Beneficiaire' => 'required|string|max:100',
+        'Numero_Pension' => 'required|string|max:10',
+        'Budget_Alloue' => 'required|numeric|min:0'
     ]);
 
     $backup = Backup::create([
-        'visa' => $validated['visa'],
-        'date_visa' => $validated['date_visa'],
-        'backup_number' => $validated['backup_number'],
-        'decision_date' => $validated['decision_date'],
-        'beneficiary' => $validated['beneficiary'],
-        'pension_number' => $validated['pension_number'],
-        'budget' => $validated['budget']
+        'Numero_Visa' => $validated['Numero_Visa'],
+        'Date_Visa' => $validated['Date_Visa'],
+        'Numero_Bureau_Secours' => $validated['Numero_Bureau_Secours'],
+        'Date_Decision' => $validated['Date_Decision'],
+        'Nom_Beneficiaire' => $validated['Nom_Beneficiaire'],
+        'Numero_Pension' => $validated['Numero_Pension'],
+        'Budget_Alloue' => $validated['Budget_Alloue']
     ]);
 
     return response()->json([$backup, 200]);
@@ -62,24 +62,24 @@ public function update($id,Request $request) {
 
     $validated = $request->validate(
         [
-        'visa' => 'required|string|max:365',
-        'date_visa' => 'required|string|max:30',
-        'backup_number' => 'required|string|max:365',
-        'decision_date' => 'required|string|max:365',
-        'beneficiary' => 'required|string|max:100',
-        'pension_number' => 'required|string|max:10',
-        'budget' => 'required|string|max:200'
+        'Numero_Visa'=> 'required|string|max:365',
+        'Date_Visa' => 'required|string|max:30',
+        'Numero_Bureau_Secours' => 'required|string|max:365',
+        'Date_Decision' => 'required|string|max:365',
+        'Nom_Beneficiaire' => 'required|string|max:100',
+        'Numero_Pension' => 'required|string|max:10',
+        'Budget_Alloue' => 'required|numeric|min:0'
         ]
         );
 
     $backup->update([
-        'visa' => $validated['visa'],
-        'date_visa' => $validated['date_visa'],
-        'backup_number' => $validated['backup_number'],
-        'decision_date' => $validated['decision_date'],
-        'beneficiary' => $validated['beneficiary'],
-        'pension_number' => $validated['pension_number'],
-        'budget' => $validated['budget'],
+        'Numero_Visa' => $validated['Numero_Visa'],
+        'Date_Visa' => $validated['Date_Visa'],
+        'Numero_Bureau_Secours' => $validated['Numero_Bureau_Secours'],
+        'Date_Decision' => $validated['Date_Decision'],
+        'Nom_Beneficiaire' => $validated['Nom_Beneficiaire'],
+        'Numero_Pension' => $validated['Numero_Pension'],
+        'Budget_Alloue' => $validated['Budget_Alloue']
     ]);
 
     $backup->save();

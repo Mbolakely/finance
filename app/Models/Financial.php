@@ -4,23 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Financial;
+use App\Models\Folder;
 
 class Financial extends Model
 {
     use HasFactory;
 
-    protected $table = 'financial';
+    protected $table = 'controle_financier';
 
     protected $fillable = [
-        'visa',
-        'visa_date',
-        'regional_delegate',
-        'beneficiary',
-        'deceased_name'
+        'Folder_id',
+        'Numero_Visa',
+        'Date_Visa',
+        'Delegue_Regional',
+        'Nom_Beneficiaire',
+        'Nom_Defunt'
     ];
 
-    public function financial() {
-        return $this -> belongsTo(Financial::class);
-    }
+    // public function folder() {
+    //     return $this -> belongsTo(Folder::class);
+    // }
 }
