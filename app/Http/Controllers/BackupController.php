@@ -34,6 +34,7 @@ class BackupController extends Controller
     public function add(Request $request)
     {
     $validated = $request->validate([
+        'Folder_id' => 'required|string|max:100',
         'Numero_Visa'=> 'required|string|max:365',
         'Date_Visa' => 'required|string|max:30',
         'Numero_Bureau_Secours' => 'required|string|max:365',
@@ -44,6 +45,7 @@ class BackupController extends Controller
     ]);
 
     $backup = Backup::create([
+        'Folder_id' => $validated['Folder_id'],
         'Numero_Visa' => $validated['Numero_Visa'],
         'Date_Visa' => $validated['Date_Visa'],
         'Numero_Bureau_Secours' => $validated['Numero_Bureau_Secours'],
@@ -62,6 +64,7 @@ public function update($id,Request $request) {
 
     $validated = $request->validate(
         [
+        'Folder_id' => 'required|string|max:100',
         'Numero_Visa'=> 'required|string|max:365',
         'Date_Visa' => 'required|string|max:30',
         'Numero_Bureau_Secours' => 'required|string|max:365',
@@ -73,6 +76,7 @@ public function update($id,Request $request) {
         );
 
     $backup->update([
+        'Folder_id' => $validated['Folder_id'],
         'Numero_Visa' => $validated['Numero_Visa'],
         'Date_Visa' => $validated['Date_Visa'],
         'Numero_Bureau_Secours' => $validated['Numero_Bureau_Secours'],

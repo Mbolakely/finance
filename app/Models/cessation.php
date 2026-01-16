@@ -14,8 +14,19 @@ class Cessation extends Model
 
     protected $fillable = [
         'folder_id',
-        'date_cessation',
-        'number_cessation'
+        'beneficiary',
+        'deceased_name',
+        'six_one',
+        'six_two',
+        'six_three',
+        'six_four',
+        'six_five',
+        'six_six',
+        'six_seven',
+        'six_eight',
+        'six_nine',
+        'six_ten',
+        'amount'
     ];
 
     public function folder() {

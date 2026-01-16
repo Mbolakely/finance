@@ -35,6 +35,7 @@ class DecisionController extends Controller
     public function add(Request $request) {
 
         $validated = $request->validate([
+            'Folder_id' => 'required|string|max:100',
             'Numero_Decision' => 'required|string|max:10',
             'Numero_Visa' => 'required|string|max:365',
             'Numero_Matricule' => 'required|string|max:20',
@@ -47,6 +48,7 @@ class DecisionController extends Controller
         ]);
 
         $decision = Decision::create([
+            'Folder_id' => $validated['Folder_id'],
             'Numero_Decision' => $validated['Numero_Decision'],
             'Numero_Visa' => $validated['Numero_Visa'],
             'Numero_Matricule' => $validated['Numero_Matricule'],
@@ -67,6 +69,7 @@ class DecisionController extends Controller
         $decision = Decision::findOrFail($id);
 
         $validated = $request->validate([
+            'Folder_id' => 'required|string|max:100',
             'Numero_Decision' => 'required|string|max:10',
             'Numero_Visa' => 'required|string|max:365',
             'Numero_Matricule' => 'required|string|max:20',
@@ -79,6 +82,7 @@ class DecisionController extends Controller
         ]);
 
         $decision->update([
+            'Folder_id' => $validated['Folder_id'],
             'Numero_Decision' => $validated['Numero_Decision'],
             'Numero_Visa' => $validated['Numero_Visa'],
             'Numero_Matricule' => $validated['Numero_Matricule'],

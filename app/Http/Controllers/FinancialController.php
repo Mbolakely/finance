@@ -31,6 +31,7 @@ class FinancialController extends Controller
     public function add(Request $request) {
 
         $validated = $request->validate([
+            'Folder_id' => 'required|string|max:100',
             'Numero_Visa' => 'required|string|max:365',
             'Date_Visa' => 'required|string|max:50',
             'Delegue_Regional' => 'nullable|max:100',
@@ -39,6 +40,7 @@ class FinancialController extends Controller
         ]);
 
         $financial = Financial::create([
+            'Folder_id' => $validated['Folder_id'],
             'Nom_Defunt' => $validated['visa'],
             'Date_Visa' => $validated['visa_date'],
             'Delegue_Regional' => $validated['beneficiary'],
@@ -54,6 +56,7 @@ class FinancialController extends Controller
         $financial = Financial::findOrFail($id);
 
         $validated = $request->validate([
+            'Folder_id' => 'required|string|max:100',
             'Numero_Visa' => 'required|string|max:365',
             'Date_Visa' => 'required|string|max:50',
             'Delegue_Regional' => 'nullable|max:100',
@@ -62,6 +65,7 @@ class FinancialController extends Controller
         ]);
 
         $folder->update([
+            'Folder_id' => $validated['Folder_id'],
             'Nom_Defunt' => $validated['visa'],
             'Date_Visa' => $validated['visa_date'],
             'Delegue_Regional' => $validated['beneficiary'],
