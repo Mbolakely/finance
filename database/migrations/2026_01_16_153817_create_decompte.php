@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('decompte', function (Blueprint $table) {
-            $table->id();
+         Schema::create('decompte', function (Blueprint $table) {
             $table->string('folder_id')->unique()->nullable();
+            $table->string('montant');
             $table->timestamps();
         });
     }

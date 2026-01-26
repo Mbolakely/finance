@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Decompte;
+use App\Models\Folder;
 
 class DecompteController extends Controller
 {
@@ -43,7 +44,7 @@ class DecompteController extends Controller
         'Montant' => $validated['Montant']
     ]);
 
-    return response()->json([$decompte, 200]);
+    return response()->json([$folder, 200]);
 }
 
 public function update($id,Request $request) {

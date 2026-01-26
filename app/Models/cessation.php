@@ -14,7 +14,7 @@ class Cessation extends Model
 
     protected $fillable = [
         'folder_id',
-        'beneficiary',
+        // 'beneficiary',
         'deceased_name',
         'six_one',
         'six_two',

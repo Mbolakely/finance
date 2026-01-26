@@ -36,7 +36,7 @@ class CessationController extends Controller
     {
         $validated = $request->validate([
             'folder_id' => 'required|string|max:100',
-            'beneficiary' => 'required|string|max=100',
+            // 'beneficiary' => 'required|string|max=100',
             'deceased_name'=> 'required|string|max:100',
             'six_one' => 'required|numeric|min:0',
             'six_two' => 'nullable|numeric|min:0',
@@ -53,7 +53,7 @@ class CessationController extends Controller
 
         $cessation = Cessation::create([
             'folder_id' => $validated['folder_id'],
-            'beneficiary' => $validated['beneficiary'],
+            // 'beneficiary' => $validated['beneficiary'],
             'deceased_name' => $validated['deceased_name'],
             'six_one' => $validated['six_one'],
             'six_two' => $validated['six_two'],
@@ -77,7 +77,7 @@ class CessationController extends Controller
 
         $validated =  $request->validate([
             'folder_id' => 'required|string|max:100',
-            'beneficiary' => 'required|string|max:100',
+            // 'beneficiary' => 'required|string|max:100',
             'deceased_name' => 'required|string|max:100',
             'six_one' => 'required|numeric|min:0',
             'six_two' => 'nullable|numeric|min:0',
@@ -94,7 +94,7 @@ class CessationController extends Controller
 
         $cessation->update([
             'folder_id' => $validated['folder_id'],
-            'beneficiary' => $validated['beneficiary'],
+            // 'beneficiary' => $validated['beneficiary'],
             'deceased_name' => $validated['deceased_name'],
             'six_one' => $validated['six_one'],
             'six_two' => $validated['six_two'],
