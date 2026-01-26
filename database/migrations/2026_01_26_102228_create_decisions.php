@@ -11,9 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cessation', function (Blueprint $table) {
+        Schema::create('decisions', function (Blueprint $table) {
             $table->id();
-            $table->string('date_cessation');
+            $table->foreignId('folder_id')
+                ->constrained('folders')
+                ->cascadeOnDelete()
+                ->unique();
+            $table->string('type_decision');
+            $table->date('date_decision');
+            $table->string('fichier')->nullable();
             $table->timestamps();
         });
     }
@@ -23,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cessation');
+        Schema::dropIfExists('decisions');
     }
 };

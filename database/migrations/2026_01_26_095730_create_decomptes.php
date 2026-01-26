@@ -11,8 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('decision', function (Blueprint $table) {
+        Schema::create('decomptes', function (Blueprint $table) {
             $table->id();
+             $table->foreignId('folder_id')
+          ->constrained('folders')
+          ->cascadeOnDelete()
+          ->unique();
+            $table->decimal('amount', 8, 2);
+            $table->string('status');
+            $table->string('fichier')->nullable();
             $table->timestamps();
         });
     }
@@ -22,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('decision');
+        Schema::dropIfExists('decomptes');
     }
 };

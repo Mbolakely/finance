@@ -11,11 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('folder', function (Blueprint $table) {
+        Schema::create('folders', function (Blueprint $table) {
             $table->id();
             $table->string('matricule')->unique();
+            $table->string('date_death');
+            $table->string('deceased_name');
+            $table->string('deceased_job');
+            $table->string('deceased_poste');
+            $table->string('deceased_cin');
+            $table->string('deceased_pension');
             $table->string('upload_date');
-            $table->string('folder_state');
+            $table->string('status')->default('en_cours');
             $table->text('remark')->nullable();
             $table->timestamps();
         });
@@ -26,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('folder');
+        Schema::dropIfExists('folders');
     }
 };
