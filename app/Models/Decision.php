@@ -25,7 +25,7 @@ class Decision extends Model
         'Secour_Deces'
     ];
 
-//     public function folder() {
-//         return $this -> belongsTo(Folder::class);
-//     }
+    public function folder() {
+        return $this -> belongsTo(Folder::class);
+    }
 }

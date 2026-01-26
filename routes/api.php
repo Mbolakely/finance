@@ -2,20 +2,21 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\http\Controllers\BeneficiaryController;
 use App\http\Controllers\FolderController;
 use App\http\Controllers\CessationController;
 use App\http\Controllers\DecisionController;
 use App\http\Controllers\FinancialController;
 use App\http\Controllers\CountdownController;
 use App\http\Controllers\BackupController;
+use App\Http\Controllers\BeneficiaireController;
+use App\Http\Controllers\DecompteController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
 // Routes pour les beneficiaires
-Route::controller(BeneficiaryController::class)->group(function() {
+Route::controller(BeneficiaireController::class)->group(function() {
     Route::get('/beneficiary', 'list');
     Route::delete('/beneficiary/{id}', 'destroy');
     Route::get('/beneficiary/{id}', 'show');
@@ -76,3 +77,18 @@ Route::controller(BackupController::class)->group(function() {
     Route::get('backup/{id}','show');
     Route::put('backup/{id}','update');
 });
+
+//NEW APIS FOR THE NEW VERSION
+Route::apiResource('folders', FolderController::class);
+Route::apiResource('beneficiaires', BeneficiaireController::class);
+
+Route::post('folders/{folder}/beneficiaires', [FolderController::class, 'assignBeneficiaires']);
+
+Route::post('decisions', [DecisionController::class, 'store']);
+Route::get('decisions/folder/{id}', [DecisionController::class, 'showByFolder']);
+
+Route::post('decomptes', [DecompteController::class, 'store']);
+Route::get('decomptes/folder/{id}', [DecompteController::class, 'showByFolder']);
+
+Route::post('cessations', [CessationController::class, 'store']);
+Route::get('cessations/folder/{id}', [CessationController::class, 'showByFolder']);

@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Folder;
 
-class Beneficiary extends Model
+class Beneficiaire extends Model
 {
     use HasFactory;
 
-    protected $table = 'beneficiary';
+    protected $table = 'beneficiaires';
 
     protected $fillable = [
         'name',
@@ -23,7 +23,10 @@ class Beneficiary extends Model
         'remark'
     ];
 
-    public function folder() {
-        $this -> hasOne(Folder::class);
+   public function folders()
+    {
+        return $this->belongsToMany(Folder::class)
+                    ->withPivot('role')
+                    ->withTimestamps();
     }
 }

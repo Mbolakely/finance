@@ -2,83 +2,97 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\Folder;
 use Illuminate\Http\Request;
-use App\Models\folder;
 
-class folderController extends Controller
+class FolderController extends Controller
 {
-    public function lister() {
-
-        $folder = folder::with('beneficiary')->get();
-
-        return response()->json($folder, 200);
+    public function index()
+    {
+        return Folder::with([
+            'beneficiaires',
+            'decision',
+            'decompte',
+            'cessation'
+        ])->get();
     }
 
-    public function delete($id) {
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'matricule'        => 'required|string|unique:folders',
+            'date_death'       => 'required|string',
+            'deceased_name'    => 'required|string',
+            'deceased_job'     => 'required|string',
+            'deceased_poste'   => 'required|string',
+            'deceased_cin'     => 'required|string',
+            'deceased_pension' => 'required|string',
+            'upload_date'      => 'required|string',
+            'status'           => 'nullable|string',
+            'remark'           => 'nullable|string',
+        ]);
 
-        $folder = folder::findOrFail($id);
-        
-        return response()->json($folder, 200);
+        return Folder::create($data);
     }
 
     public function show($id)
     {
-        $folder = Folder::findOrFail($id);
-
-        return response()->json([
-            'folder' => $folder,
-            'status' => 200
-        ]);
+        return Folder::with([
+            'beneficiaires',
+            'decision',
+            'decompte',
+            'cessation'
+        ])->findOrFail($id);
     }
 
-    public function add(Request $request)
+    public function update(Request $request, $id)
     {
-    $validated = $request->validate([
-        'matricule'=> 'required|string|max:20',
-        'upload_date' => 'required|string|max:50',
-        'beneficiary_id' => 'required|string|max:100',
-        'folder_state' => 'required|in:Actif,Inactif',
-        'remark' => 'nullable|max:200'
+        $folder = Folder::findOrFail($id);
+
+        $data = $request->validate([
+            'matricule'        => 'sometimes|string|unique:folders,matricule,' . $id,
+            'date_death'       => 'sometimes|string',
+            'deceased_name'    => 'sometimes|string',
+            'deceased_job'     => 'sometimes|string',
+            'deceased_poste'   => 'sometimes|string',
+            'deceased_cin'     => 'sometimes|string',
+            'deceased_pension' => 'sometimes|string',
+            'upload_date'      => 'sometimes|string',
+            'status'           => 'nullable|string',
+            'remark'           => 'nullable|string',
+        ]);
+
+        $folder->update($data);
+
+        return $folder;
+    }
+
+    public function destroy($id)
+    {
+        Folder::findOrFail($id)->delete();
+        return response()->json(['message' => 'Folder supprimé']);
+    }
+
+    public function assignBeneficiaires(Request $request, $folderId)
+{
+    $folder = Folder::findOrFail($folderId);
+
+    $data = $request->validate([
+        'beneficiaires'          => 'required|array',
+        'beneficiaires.*.id'     => 'required|exists:beneficiaires,id',
+        'beneficiaires.*.role'   => 'nullable|string',
     ]);
 
-    $folder = Folder::create([
-        'matricule' => $validated['matricule'],
-        'upload_date' => $validated['upload_date'],
-        'beneficiary_id' => $validated['beneficiary_id'],
-        'folder_state' => $validated['folder_state'],
-        'remark' => $validated['remark'] ?? null
-    ]);
+    $syncData = [];
 
-    return response()->json([$folder, 200]);
+    foreach ($data['beneficiaires'] as $b) {
+        $syncData[$b['id']] = ['role' => $b['role'] ?? null];
+    }
+
+    $folder->beneficiaires()->sync($syncData);
+
+    return $folder->load('beneficiaires');
 }
 
-public function update($id,Request $request) {
-
-    $folder = Folder::findOrFail($id);
-
-    $validated = $request->validate(
-        [
-        'matricule' => 'required|string|max:10',
-        'upload_date' => 'required|string|max:50',
-        'beneficiary_id' => 'required|string|max:100',
-        'folder_state' => 'required|in:Actif,Inactif',
-        'remark' => 'nullable|max:200'
-        ]
-        );
-
-    $folder->update([
-        'matricule' => $validated['matricule'],
-        'upload_date' => $validated['upload_date'],
-        'beneficiary_id' => $validated['beneficiary_id'],
-        'folder_state' => $validated['folder_state'],
-        'remark' => $validated['remark'],
-    ]);
-
-    $folder->save();
-
-    return response()->json([
-        'message' => "folder modifié avec succès",
-        'folder' => $folder
-    ]);
-}
 }

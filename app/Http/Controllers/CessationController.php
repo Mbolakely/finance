@@ -2,118 +2,61 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\Cessation;
 use Illuminate\Http\Request;
-use App\Models\cessation;
 
 class CessationController extends Controller
 {
-    public function list()
+    public function store(Request $request)
     {
-        $cessation = Cessation::with('folder')->get();
+        $data = $request->validate([
+            'folder_id'     => 'required|exists:folders,id|unique:cessations,folder_id',
+            'six_one'       => 'required|numeric',
+            'six_two'       => 'required|numeric',
+            'six_three'     => 'required|numeric',
+            'six_four'      => 'required|numeric',
+            'six_five'      => 'required|numeric',
+            'six_six'       => 'required|numeric',
+            'six_seven'     => 'required|numeric',
+            'six_eight'     => 'required|numeric',
+            'six_nine'      => 'required|numeric',
+            'six_ten'       => 'required|numeric',
+            'amount'        => 'required|numeric',
+            'date_cessation'=> 'required|string',
+            'remark'        => 'nullable|string',
+        ]);
 
-        return response()->json($cessation,200);
-
+        return Cessation::create($data);
     }
 
-    public function delete($id) {
+    public function showByFolder($folderId)
+    {
+        return Cessation::where('folder_id', $folderId)->firstOrFail();
+    }
 
+    public function update(Request $request, $id)
+    {
         $cessation = Cessation::findOrFail($id);
 
-        return response()->json($cessation, 200);
-    }
-
-    public function show($id)
-    {
-        $cessation = Cessation::findOrFail($id);
-
-        return response()->json([
-            'cessation' => $cessation,
-            'status' => 200
-        ]);
-    }
-
-    public function add(Request $request)
-    {
-        $validated = $request->validate([
-            'folder_id' => 'required|string|max:100',
-            // 'beneficiary' => 'required|string|max=100',
-            'deceased_name'=> 'required|string|max:100',
-            'six_one' => 'required|numeric|min:0',
-            'six_two' => 'nullable|numeric|min:0',
-            'six_three' => 'required|numeric|min:0',
-            'six_four' => 'required|numeric|min:0',
-            'six_five' => 'required|numeric|min:0',
-            'six_six' => 'required|numeric|min:0',
-            'six_seven' => 'required|numeric|min:0',
-            'six_eight' => 'required|numeric|min:0',
-            'six_nine' => 'required|numeric|min:0',
-            'six_ten' => 'required|numeric|min:0',
-            'amount' => 'required|numeric|min:0',
+        $data = $request->validate([
+            'six_one'        => 'sometimes|numeric',
+            'six_two'        => 'sometimes|numeric',
+            'six_three'      => 'sometimes|numeric',
+            'six_four'       => 'sometimes|numeric',
+            'six_five'       => 'sometimes|numeric',
+            'six_six'        => 'sometimes|numeric',
+            'six_seven'      => 'sometimes|numeric',
+            'six_eight'      => 'sometimes|numeric',
+            'six_nine'       => 'sometimes|numeric',
+            'six_ten'        => 'sometimes|numeric',
+            'amount'         => 'sometimes|numeric',
+            'date_cessation' => 'sometimes|string',
+            'remark'         => 'nullable|string',
         ]);
 
-        $cessation = Cessation::create([
-            'folder_id' => $validated['folder_id'],
-            // 'beneficiary' => $validated['beneficiary'],
-            'deceased_name' => $validated['deceased_name'],
-            'six_one' => $validated['six_one'],
-            'six_two' => $validated['six_two'],
-            'six_three' => $validated['six_three'],
-            'six_four' => $validated['six_four'],
-            'six_five' => $validated['six_five'],
-            'six_six' => $validated['six_six'],
-            'six_seven' => $validated['six_seven'],
-            'six_eight' => $validated['six_eight'],
-            'six_nine' => $validated['six_nine'],
-            'six_ten' => $validated['six_ten'],
-            'amount' => $validated['amount']
-        ]);
+        $cessation->update($data);
 
-        return response()->json([$cessation, 200]);
-    }
-
-    public function update($id,Request $request) {
-
-        $cessation = Cessation::findOrFail($id);
-
-        $validated =  $request->validate([
-            'folder_id' => 'required|string|max:100',
-            // 'beneficiary' => 'required|string|max:100',
-            'deceased_name' => 'required|string|max:100',
-            'six_one' => 'required|numeric|min:0',
-            'six_two' => 'nullable|numeric|min:0',
-            'six_three' => 'required|numeric|min:0',
-            'six_four' => 'required|numeric|min:0',
-            'six_five' => 'required|numeric|min:0',
-            'six_six' => 'required|numeric|min:0',
-            'six_seven' => 'required|numeric|min:0',
-            'six_eight' => 'required|numeric|min:0',
-            'six_nine' => 'required|numeric|min:0',
-            'six_ten' => 'required|numeric|min:0',
-            'amount' => 'required|numeric|min:0'
-        ]);
-
-        $cessation->update([
-            'folder_id' => $validated['folder_id'],
-            // 'beneficiary' => $validated['beneficiary'],
-            'deceased_name' => $validated['deceased_name'],
-            'six_one' => $validated['six_one'],
-            'six_two' => $validated['six_two'],
-            'six_three' => $validated['six_three'],
-            'six_four' => $validated['six_four'],
-            'six_five' => $validated['six_five'],
-            'six_six' => $validated['six_six'],
-            'six_seven' => $validated['six_seven'],
-            'six_eight' => $validated['six_eight'],
-            'six_nine' => $validated['six_nine'],
-            'six_ten' => $validated['six_ten'],
-            'amount' => $validated['amount']
-        ]);
-
-        $cessation->save();
-
-        return response()->json([
-            'message' => "cessation modifié avec succès",
-            'cessation' => $cessation
-        ]);
+        return $cessation;
     }
 }
