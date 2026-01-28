@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class DecompteController extends Controller
 {
+     public function index()
+    {
+        return Decompte::with('folder')->get();
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([

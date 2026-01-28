@@ -15,6 +15,13 @@ class DecisionController extends Controller
         $data = $request->validate([
             'folder_id'     => 'required|exists:folders,id|unique:decisions,folder_id',
             'type_decision' => 'required|string',
+            'numero_visa' => 'required|string',
+            'decision_agent' => 'required|string',
+            'budget' => 'required|numeric',
+            'allocated_amount' => 'required|numeric',
+            'numero_decision' => 'required|string',
+            'code_imputation' => 'required|string',
+            'remark' => 'nullable|string',
             'date_decision' => 'required|date',
         ]);
 
@@ -23,7 +30,7 @@ class DecisionController extends Controller
         $decision->save();
 
         return response()->json([
-            'data' => $decision,
+            'decision' => $decision,
             'status' => 200
         ]);
     }
@@ -38,8 +45,16 @@ class DecisionController extends Controller
         $decision = Decision::findOrFail($id);
 
         $data = $request->validate([
-            'type_decision' => 'sometimes|string',
-            'date_decision' => 'sometimes|date',
+             'folder_id'     => 'required|exists:folders,id|unique:decisions,folder_id',
+            'type_decision' => 'required|string',
+            'numero_visa' => 'required|string',
+            'decision_agent' => 'required|string',
+            'budget' => 'required|numeric',
+            'allocated_amount' => 'required|numeric',
+            'numero_decision' => 'required|string',
+            'code_imputation' => 'required|string',
+            'remark' => 'nullable|string',
+            'date_decision' => 'required|date',
         ]);
 
         $decision->update($data);

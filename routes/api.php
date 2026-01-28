@@ -87,9 +87,11 @@ Route::post('folders/{folder}/beneficiaires', [FolderController::class, 'assignB
 Route::post('decisions', [DecisionController::class, 'store']);
 Route::get('decisions/folder/{id}', [DecisionController::class, 'showByFolder']);
 
+Route::get('decomptes', [DecompteController::class, 'index']);
 Route::post('decomptes', [DecompteController::class, 'store']);
 Route::get('decomptes/folder/{id}', [DecompteController::class, 'showByFolder']);
 
+Route::get('cessations', [CessationController::class, 'index']);
 Route::post('cessations', [CessationController::class, 'store']);
 Route::get('cessations/folder/{id}', [CessationController::class, 'showByFolder']);
 

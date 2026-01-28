@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class CessationController extends Controller
 {
+    public function index()
+    {
+        return Cessation::with('folder')->get();
+    }
+
     public function store(Request $request)
     {
         $cessation_validated = $request->validate([

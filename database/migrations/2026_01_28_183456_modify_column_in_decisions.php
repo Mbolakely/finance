@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('decisions', function (Blueprint $table) {
+            $table->string('numero_decision');
+            $table->string('numero_visa');
+            $table->decimal('budget', 20, 2);
+            $table->string('code_imputation');
+            $table->decimal('allocated_amount', 20, 2);
+            $table->string('remark')->nullable();
+            $table->string('decision_agent');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('decisions', function (Blueprint $table) {
+            //
+        });
+    }
+};

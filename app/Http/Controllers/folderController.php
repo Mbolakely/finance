@@ -57,7 +57,7 @@ class FolderController extends Controller
             'deceased_job'     => 'sometimes|string',
             'deceased_poste'   => 'sometimes|string',
             'deceased_cin'     => 'sometimes|string',
-            'deceased_pension' => 'sometimes|string',
+            'deceased_pension' => 'nullable|string',
             'upload_date'      => 'sometimes|string',
             'status'           => 'nullable|string',
             'remark'           => 'nullable|string',

@@ -16,7 +16,15 @@ class Decision extends Model
         'folder_id',
         'type_decision',
         'date_decision',
+        'numero_visa',
+        'numero_decision',
+        'budget',
+        'allocated_amount',
+        'code_imputation',
+        'date_decision',
         'fichier',
+        'remark',
+        'decision_agent'
     ];
 
     public function folder() {
