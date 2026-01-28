@@ -10,16 +10,13 @@ class Decompte extends Model
 {
     use HasFactory;
 
-    protected $table = 'decompte';
+    protected $table = 'decomptes';
     
-    protected $fillable = [
-        'Folder_id',
-        'Number_CIN',
-        'Name',
-        'Address',
-        'Contact',
-        'Status',
-        'Montant'
+  protected $fillable = [
+        'folder_id',
+        'amount',
+        'status',
+        'fichier',
     ];
 
     public function folder() {

@@ -17,7 +17,7 @@ return new class extends Migration
           ->constrained('folders')
           ->cascadeOnDelete()
           ->unique();
-            $table->decimal('amount', 8, 2);
+            $table->decimal('amount', 18, 2);
             $table->string('status');
             $table->string('fichier')->nullable();
             $table->timestamps();

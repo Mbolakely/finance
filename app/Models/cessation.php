@@ -10,12 +10,10 @@ class Cessation extends Model
 {
     use HasFactory;
 
-    protected $table = 'cessation';
+    protected $table = 'cessations';
 
     protected $fillable = [
         'folder_id',
-        // 'beneficiary',
-        'deceased_name',
         'six_one',
         'six_two',
         'six_three',
@@ -26,7 +24,10 @@ class Cessation extends Model
         'six_eight',
         'six_nine',
         'six_ten',
-        'amount'
+        'amount',
+        'date_cessation',
+        'fichier',
+        'remark',
     ];
 
     public function folder() {

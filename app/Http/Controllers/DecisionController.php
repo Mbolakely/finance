@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Decision;
+use App\Services\Pdf\DecisionPdfService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DecisionController extends Controller
 {
@@ -16,7 +18,14 @@ class DecisionController extends Controller
             'date_decision' => 'required|date',
         ]);
 
-        return Decision::create($data);
+        $decision = Decision::create($data);
+        $decision->fichier = DecisionPdfService::generate($decision);
+        $decision->save();
+
+        return response()->json([
+            'data' => $decision,
+            'status' => 200
+        ]);
     }
 
     public function showByFolder($folderId)
@@ -37,4 +46,23 @@ class DecisionController extends Controller
 
         return $decision;
     }
-}
+    
+    public function download($folderId)
+    {
+        $decision = Decision::where('folder_id', $folderId)->firstOrFail();
+
+        if (!$decision->fichier) {
+            return response()->json([
+                'message' => 'Aucun fichier généré pour cette décision'
+            ], 404);
+        }
+
+        if (!Storage::disk('public')->exists($decision->fichier)) {
+            return response()->json([
+                'message' => 'Fichier introuvable'
+            ], 404);
+        }
+
+        $path = Storage::disk('public')->path($decision->fichier);
+        return response()->download($path);
+    }}

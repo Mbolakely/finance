@@ -12,20 +12,20 @@ class Beneficiaire extends Model
 
     protected $table = 'beneficiaires';
 
-    protected $fillable = [
+   protected $fillable = [
         'name',
         'firstname',
-        'cin',
+        'adresse',
         'sexe',
         'contact',
-        'adresse',
-        'state',
-        'remark'
+        'cin',
+        'email',
+        'remark',
     ];
 
-   public function folders()
+  public function folders()
     {
-        return $this->belongsToMany(Folder::class)
+        return $this->belongsToMany(Folder::class, 'folder_beneficiaire')
                     ->withPivot('role')
                     ->withTimestamps();
     }

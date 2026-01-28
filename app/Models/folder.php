@@ -10,27 +10,31 @@ class Folder extends Model
 {
     use HasFactory;
 
-    protected $table = 'folder';
+    protected $table = 'folders';
 
     protected $fillable = [
-        'beneficiary_id',
         'matricule',
+        'date_death',
+        'deceased_name',
+        'deceased_job',
+        'deceased_poste',
+        'deceased_cin',
+        'deceased_pension',
         'upload_date',
-        'folder_state',
-        'remark'
+        'status',
+        'remark',
     ];
 
-   
+
     /**
      * Un dossier peut concerner plusieurs bénéficiaires
      */
     public function beneficiaires()
     {
-        return $this->belongsToMany(Beneficiaire::class)
-                    ->withPivot('role')
-                    ->withTimestamps();
+        return $this->belongsToMany(Beneficiaire::class, 'folder_beneficiaire')
+            ->withPivot('role')
+            ->withTimestamps();
     }
-
     public function decision()
     {
         return $this->hasOne(Decision::class);
