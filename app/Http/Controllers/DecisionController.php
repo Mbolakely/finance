@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Storage;
 
 class DecisionController extends Controller
 {
+    public function index()
+    {
+        return Decision::with('folder')->get();
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -45,7 +50,7 @@ class DecisionController extends Controller
         $decision = Decision::findOrFail($id);
 
         $data = $request->validate([
-             'folder_id'     => 'required|exists:folders,id|unique:decisions,folder_id',
+            'folder_id'     => 'required|exists:folders,id|unique:decisions,folder_id',
             'type_decision' => 'required|string',
             'numero_visa' => 'required|string',
             'decision_agent' => 'required|string',
@@ -61,7 +66,7 @@ class DecisionController extends Controller
 
         return $decision;
     }
-    
+
     public function download($folderId)
     {
         $decision = Decision::where('folder_id', $folderId)->firstOrFail();
@@ -80,4 +85,51 @@ class DecisionController extends Controller
 
         $path = Storage::disk('public')->path($decision->fichier);
         return response()->download($path);
-    }}
+    }
+
+    public function view($folderId)
+    {
+        $decision = Decision::where('folder_id', $folderId)->firstOrFail();
+
+        if (!$decision->fichier || !Storage::disk('public')->exists($decision->fichier)) {
+            abort(404, 'Fichier introuvable');
+        }
+
+        //     dd([
+        //     'fichier_en_base' => $decision->fichier,
+        //     'exists' => Storage::disk('public')->exists($decision->fichier),
+        //     'full_path' => Storage::disk('public')->path($decision->fichier),
+        // ]);
+
+        $path = Storage::disk('public')->path($decision->fichier);
+
+        return response()->file(
+            Storage::disk('public')->path($decision->fichier),
+            [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="decision.pdf"',
+                'Cache-Control' => 'public, max-age=0',
+                'Pragma' => 'public',
+            ]
+        );
+    }
+
+    public function getDecisionUrl($folderId)
+    {
+        $decision = Decision::where('folder_id', $folderId)->firstOrFail();
+
+        if (!$decision->fichier || !Storage::disk('public')->exists($decision->fichier)) {
+            return response()->json(['message' => 'Fichier introuvable'], 404);
+        }
+
+        $url = asset('storage/' . $decision->fichier);
+
+        return response()->json([
+            'url' => $url,
+            'headers' => [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline'
+            ]
+        ]);
+    }
+}

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cessation;
 use App\Models\Decompte;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CessationController extends Controller
 {
@@ -63,7 +64,8 @@ class CessationController extends Controller
         ]);
 
         $final_amount = $cessation->amount;
-        $decompte_amount = $final_amount * 3;
+        $amount_two = $final_amount - $six_two;
+        $decompte_amount = $amount_two * 3;
 
         $decompte = Decompte::create([
             'folder_id' => $cessation_validated['folder_id'],
@@ -108,4 +110,32 @@ class CessationController extends Controller
 
         return $cessation;
     }
+
+    public function view($folderId)
+    {
+        $cessation = Cessation::where('folder_id', $folderId)->firstOrFail();
+
+        if (!$cessation->fichier || !Storage::disk('public')->exists($cessation->fichier)) {
+            abort(404, 'Fichier introuvable');
+        }
+
+        //     dd([
+        //     'fichier_en_base' => $decision->fichier,
+        //     'exists' => Storage::disk('public')->exists($decision->fichier),
+        //     'full_path' => Storage::disk('public')->path($decision->fichier),
+        // ]);
+
+        $path = Storage::disk('public')->path($cessation->fichier);
+
+        return response()->file(
+            Storage::disk('public')->path($cessation->fichier),
+            [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="cessation.pdf"',
+                'Cache-Control' => 'public, max-age=0',
+                'Pragma' => 'public',
+            ]
+        );
+    }
+
 }

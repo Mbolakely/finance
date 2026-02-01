@@ -10,6 +10,7 @@ use App\http\Controllers\CountdownController;
 use App\http\Controllers\BackupController;
 use App\Http\Controllers\BeneficiaireController;
 use App\Http\Controllers\DecompteController;
+use App\Http\Controllers\SecoursController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -84,6 +85,8 @@ Route::apiResource('beneficiaires', BeneficiaireController::class);
 
 Route::post('folders/{folder}/beneficiaires', [FolderController::class, 'assignBeneficiaires']);
 
+Route::get('decisions', [DecisionController::class, 'index']);
+Route::get('decisions/{folderId}/url', [DecisionController::class, 'getDecisionUrl']);
 Route::post('decisions', [DecisionController::class, 'store']);
 Route::get('decisions/folder/{id}', [DecisionController::class, 'showByFolder']);
 
@@ -102,7 +105,13 @@ Route::get(
     [DecompteController::class, 'download']
 );
 
+
 Route::get(
     'cessations/{folder}/download',
     [CessationController::class, 'download']
 );
+
+Route::get('/decisions/{folderId}/view', [DecisionController::class, 'view']);
+Route::get('/decomptes/{folderId}/view', [DecompteController::class, 'view']);
+Route::get('/secours/{folderId}/view', [SecoursController::class, 'view']);
+Route::get('/cessations/{folderId}/view', [CessationController::class, 'view']);

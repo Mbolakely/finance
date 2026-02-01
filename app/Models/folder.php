@@ -49,4 +49,10 @@ class Folder extends Model
     {
         return $this->hasOne(Cessation::class);
     }
+
+    public function secours()
+    {
+        return $this->hasOne(Secours::class);
+    }
+
 }

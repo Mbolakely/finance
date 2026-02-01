@@ -1,20 +1,19 @@
 <?php
-
+ 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Folder;
 
-class Backup extends Model
+class Secours extends Model
 {
-    use HasFactory;
+        use HasFactory;
 
-    protected $table = 'bureau_de_secours';
+    protected $table = 'secours';
 
     protected $fillable = [
-        'Folder_id',
-        'Numero_Bureau_Secours',
+        'folder_id',
+        'numero_secours',
     ];
 
     public function folder() {

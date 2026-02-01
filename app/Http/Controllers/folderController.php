@@ -14,7 +14,8 @@ class FolderController extends Controller
             'beneficiaires',
             'decision',
             'decompte',
-            'cessation'
+            'cessation',
+            'secours'
         ])->get();
     }
 
