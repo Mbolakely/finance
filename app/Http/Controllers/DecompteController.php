@@ -71,4 +71,13 @@ class DecompteController extends Controller
         );
     }
 
+    public function destroy($id)
+    {
+        $decompte = Decompte::findOrFail($id);
+        $decompte->delete();
+
+        return response()->json([
+            'message' => 'Décompte supprimé avec succès'
+        ]);
+    }
 }

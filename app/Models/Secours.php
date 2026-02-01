@@ -14,6 +14,7 @@ class Secours extends Model
     protected $fillable = [
         'folder_id',
         'numero_secours',
+        'fichier'
     ];
 
     public function folder() {

@@ -50,7 +50,7 @@ class DecisionController extends Controller
         $decision = Decision::findOrFail($id);
 
         $data = $request->validate([
-            'folder_id'     => 'required|exists:folders,id|unique:decisions,folder_id',
+            'folder_id'     => 'required|exists:folders,id|unique:decisions,folder_id,'.$decision->id,
             'type_decision' => 'required|string',
             'numero_visa' => 'required|string',
             'decision_agent' => 'required|string',
@@ -130,6 +130,17 @@ class DecisionController extends Controller
                 'Content-Type' => 'application/pdf',
                 'Content-Disposition' => 'inline'
             ]
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $decision = Decision::findOrFail($id);
+        $decision->delete();
+
+        return response()->json([
+            'message' => 'Decision deleted successfully',
+            'status' => 200
         ]);
     }
 }

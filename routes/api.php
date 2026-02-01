@@ -86,6 +86,8 @@ Route::apiResource('beneficiaires', BeneficiaireController::class);
 Route::post('folders/{folder}/beneficiaires', [FolderController::class, 'assignBeneficiaires']);
 
 Route::get('decisions', [DecisionController::class, 'index']);
+Route::put('decisions/{id}', [DecisionController::class, 'update']);
+Route::delete('decisions/{id}', [DecisionController::class, 'destroy']);
 Route::get('decisions/{folderId}/url', [DecisionController::class, 'getDecisionUrl']);
 Route::post('decisions', [DecisionController::class, 'store']);
 Route::get('decisions/folder/{id}', [DecisionController::class, 'showByFolder']);
@@ -93,9 +95,12 @@ Route::get('decisions/folder/{id}', [DecisionController::class, 'showByFolder'])
 Route::get('decomptes', [DecompteController::class, 'index']);
 Route::post('decomptes', [DecompteController::class, 'store']);
 Route::get('decomptes/folder/{id}', [DecompteController::class, 'showByFolder']);
+Route::delete('decomptes/{id}', [DecompteController::class, 'destroy']);
 
 Route::get('cessations', [CessationController::class, 'index']);
 Route::post('cessations', [CessationController::class, 'store']);
+Route::put('cessations/{id}', [CessationController::class, 'update']);
+Route::delete('cessations/{id}', [CessationController::class, 'destroy']);
 Route::get('cessations/folder/{id}', [CessationController::class, 'showByFolder']);
 
 Route::get('decisions/{folder}/download', [DecisionController::class, 'download']);
@@ -115,3 +120,9 @@ Route::get('/decisions/{folderId}/view', [DecisionController::class, 'view']);
 Route::get('/decomptes/{folderId}/view', [DecompteController::class, 'view']);
 Route::get('/secours/{folderId}/view', [SecoursController::class, 'view']);
 Route::get('/cessations/{folderId}/view', [CessationController::class, 'view']);
+
+Route::get('secours', [SecoursController::class, 'index']);
+Route::post('secours', [SecoursController::class, 'store']);
+Route::put('secours/{id}', [SecoursController::class, 'update']);
+Route::get('secours/folder/{id}', [SecoursController::class, 'showByFolder']);
+Route::delete('secours/{id}', [SecoursController::class, 'destroy']);

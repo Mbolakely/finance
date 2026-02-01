@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Secours;
 use App\Services\Pdf\DecisionPdfService;
+use App\Services\Pdf\SecoursPdfService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,7 +23,7 @@ class SecoursController extends Controller
         ]);
 
         $secours = Secours::create($data);
-        $secours->fichier = DecisionPdfService::generate($secours);
+        $secours->fichier = SecoursPdfService::generate($secours);
         $secours->save();
 
         return response()->json([
@@ -97,4 +98,14 @@ class SecoursController extends Controller
         );
     }
 
+    public function destroy($id)
+    {
+        $secours = Secours::findOrFail($id);
+        $secours->delete();
+
+        return response()->json([
+            'message' => 'Secours deleted successfully',
+            'status' => 200
+        ]);
+    }
 }

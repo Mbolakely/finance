@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Cessation;
 use App\Models\Decompte;
+use App\Services\Pdf\CessationPdfService;
+use App\Services\Pdf\DecomptePdfService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -63,6 +65,9 @@ class CessationController extends Controller
             'amount' => $amount
         ]);
 
+        $cessation->fichier = CessationPdfService::generate($cessation);
+        $cessation->save();
+
         $final_amount = $cessation->amount;
         $amount_two = $final_amount - $six_two;
         $decompte_amount = $amount_two * 3;
@@ -72,6 +77,9 @@ class CessationController extends Controller
             'amount' => $decompte_amount,
             'status' => 'en_attente'
         ]);
+
+        $decompte->fichier = DecomptePdfService::generate($decompte);
+        $decompte->save();
 
         return response()->json([
             'message' => 'Cessation et decompte enregistré avec succès',
@@ -138,4 +146,13 @@ class CessationController extends Controller
         );
     }
 
+    public function destroy($id)
+    {
+        $cessation = Cessation::findOrFail($id);
+        $cessation->delete();
+
+        return response()->json([
+            'message' => 'Cessation supprimée avec succès'
+        ]);
+    }
 }

@@ -75,25 +75,26 @@ class FolderController extends Controller
         return response()->json(['message' => 'Folder supprimé']);
     }
 
-    public function assignBeneficiaires(Request $request, $folderId)
+   public function assignBeneficiaires(Request $request, Folder $folder)
 {
-    $folder = Folder::findOrFail($folderId);
-
-    $data = $request->validate([
-        'beneficiaires'          => 'required|array',
-        'beneficiaires.*.id'     => 'required|exists:beneficiaires,id',
-        'beneficiaires.*.role'   => 'nullable|string',
+    $validated = $request->validate([
+        'beneficiaires' => 'required|array',
+        'beneficiaires.*.id' => 'required|exists:beneficiaires,id',
+        'beneficiaires.*.role' => 'nullable|string|max:255',
     ]);
 
     $syncData = [];
 
-    foreach ($data['beneficiaires'] as $b) {
-        $syncData[$b['id']] = ['role' => $b['role'] ?? null];
+    foreach ($validated['beneficiaires'] as $ben) {
+        $syncData[$ben['id']] = [
+            'role' => $ben['role'] ?? null
+        ];
     }
 
     $folder->beneficiaires()->sync($syncData);
 
-    return $folder->load('beneficiaires');
+    return response()->json([
+        'message' => 'Bénéficiaires affectés avec succès'
+    ], 200);
 }
-
 }
