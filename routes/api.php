@@ -105,6 +105,8 @@ Route::get('cessations/folder/{id}', [CessationController::class, 'showByFolder'
 
 Route::get('decisions/{folder}/download', [DecisionController::class, 'download']);
 
+Route::patch('/folders/{id}/status', [FolderController::class, 'updateStatus']);
+
 Route::get(
     'decomptes/{folder}/download',
     [DecompteController::class, 'download']
