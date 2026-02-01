@@ -10,12 +10,18 @@ class DecisionPdfService
 {
     public static function generate(Decision $decision): string
     {
-        $path = "decisions/decision_{$decision->folder_id}.pdf";
+        $view = match ($decision->type_decision) {
+            'pension' => 'pdf.pension',
+            'solde'   => 'pdf.solde',
+            default   => throw new \Exception('Type de décision inconnu'),
+        };
 
-        $pdf = Pdf::loadView('pdf.decision', [
+        $pdf = Pdf::loadView($view, [
             'decision' => $decision,
             'folder'   => $decision->folder
         ]);
+
+        $path = "decisions/decision_{$decision->id}.pdf";
 
         Storage::disk('public')->put($path, $pdf->output());
 

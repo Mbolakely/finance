@@ -78,7 +78,7 @@
 
 <table class="amounts-table">
     <tr>
-        <!-- <td>Au titre de Pensions</td> -->
+        <td></td>
         <td>601 :</td>
         <td style="text-align: right;">{{ $cessation->six_one }}</td>
     </tr>

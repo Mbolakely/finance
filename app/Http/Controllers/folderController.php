@@ -14,8 +14,8 @@ class FolderController extends Controller
             'beneficiaires',
             'decision',
             'decompte',
+            'secours',
             'cessation',
-            'secours'
         ])->get();
     }
 
@@ -43,7 +43,8 @@ class FolderController extends Controller
             'beneficiaires',
             'decision',
             'decompte',
-            'cessation'
+            'cessation',
+            'secours'
         ])->findOrFail($id);
     }
 
@@ -75,26 +76,26 @@ class FolderController extends Controller
         return response()->json(['message' => 'Folder supprimé']);
     }
 
-   public function assignBeneficiaires(Request $request, Folder $folder)
-{
-    $validated = $request->validate([
-        'beneficiaires' => 'required|array',
-        'beneficiaires.*.id' => 'required|exists:beneficiaires,id',
-        'beneficiaires.*.role' => 'nullable|string|max:255',
-    ]);
+    public function assignBeneficiaires(Request $request, Folder $folder)
+    {
+        $validated = $request->validate([
+            'beneficiaires' => 'required|array',
+            'beneficiaires.*.id' => 'required|exists:beneficiaires,id',
+            'beneficiaires.*.role' => 'nullable|string|max:255',
+        ]);
 
-    $syncData = [];
+        $syncData = [];
 
-    foreach ($validated['beneficiaires'] as $ben) {
-        $syncData[$ben['id']] = [
-            'role' => $ben['role'] ?? null
-        ];
+        foreach ($validated['beneficiaires'] as $ben) {
+            $syncData[$ben['id']] = [
+                'role' => $ben['role'] ?? null
+            ];
+        }
+
+        $folder->beneficiaires()->sync($syncData);
+
+        return response()->json([
+            'message' => 'Bénéficiaires affectés avec succès'
+        ]);
     }
-
-    $folder->beneficiaires()->sync($syncData);
-
-    return response()->json([
-        'message' => 'Bénéficiaires affectés avec succès'
-    ], 200);
-}
 }

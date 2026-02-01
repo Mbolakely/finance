@@ -13,11 +13,16 @@ class SecoursPdfService
         $path = "secours/secours_{$secours->folder_id}.pdf";
 
         $pdf = Pdf::loadView('pdf.secours', [
-            'secours' => $secours,
-            'folder'   => $secours->folder
-        ]);
+            'secours'       => $secours,
+            'folder'        => $secours->folder,
+            'beneficiaires' => $secours->folder->beneficiaires
+        ])->setPaper('A4', 'portrait');
 
         Storage::disk('public')->put($path, $pdf->output());
+
+        $secours->update([
+            'fichier' => $path
+        ]);
 
         return $path;
     }
